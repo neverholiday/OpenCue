@@ -1,0 +1,4 @@
+#   Gradle not offline yet
+./gradlew clean build --offline -x test
+
+#   TODO : set gradle wrapper to offline mode
