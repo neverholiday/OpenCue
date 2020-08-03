@@ -12,3 +12,8 @@
 /nbproject
 /NETBEANS_CLASSPATH_SPECIFIC
 *.iml
+
+.classpath
+.project
+.settings/
+bin/

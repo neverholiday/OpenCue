@@ -1,24 +1,42 @@
 
-buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.8'
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE'
-        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
-    }
-}
+// buildscript {
+//     // repositories {
+//     //     mavenCentral()
+//     //     jcenter()
+//     // }
+//     // dependencies {
+//     //     classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.8'
+//     //     classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE'
+//     //     classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1'
+//     // }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.google.protobuf'
-apply plugin: 'jacoco'
-apply plugin: 'org.sonarqube'
+//     repositories {
+//         flatDir {
+//             dirs '/opt/opencue/libs_jar'
+//         }
+//     }
+
+// }
+
+// apply plugin: 'java'
+// apply plugin: 'eclipse'
+// apply plugin: 'idea'
+
+plugins {
+    
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'jacoco'
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'com.google.protobuf' version '0.8.8'
+}
+// apply plugin: 'org.springframework.boot'
+// apply plugin: 'io.spring.dependency-management'
+// apply plugin: 'com.google.protobuf'
+// apply plugin: 'jacoco'
+// apply plugin: 'org.sonarqube'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -32,39 +50,45 @@ configurations {
 }
 
 repositories {
-    mavenCentral()
-    jcenter()
+        flatDir {
+            dirs '/opt/opencue/libs_jar'
+            dirs '/opt/opencue/libs_test_jar'
+        }
 }
 
 // Spring dependency versions are managed by the io.spring.dependency-management plugin.
 // Appropriate versions will be pulled based on the spring boot version specified in the
 // spring-boot-gradle-plugin.
 dependencies {
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
-    compile group: 'com.google.guava', name: 'guava', version: '26.0-android'
-    compile group: 'com.sun.mail', name: 'mailapi', version: '1.5.4'
-    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
-    compile group: 'io.grpc', name: 'grpc-all', version: '1.14.0'
-    compile group: 'org.apache.activemq', name: 'activemq-pool', version: activemqVersion
-    compile group: 'org.apache.velocity', name: 'velocity', version: '1.7'
-    compile group: 'org.jdom', name: 'jdom', version: '1.1.3'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    compile group: 'org.springframework', name: 'spring-context-support'
-    compile group: 'org.springframework', name: 'spring-jms'
-    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.1', { exclude group: 'c3p0', module: 'c3p0' }
-    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
+    // compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+    // compile group: 'com.google.guava', name: 'guava', version: '26.0-android'
+    // compile group: 'com.sun.mail', name: 'mailapi', version: '1.5.4'
+    // compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    // compile group: 'io.grpc', name: 'grpc-all', version: '1.14.0'
+    // compile group: 'org.apache.activemq', name: 'activemq-pool', version: activemqVersion
+    // compile group: 'org.apache.velocity', name: 'velocity', version: '1.7'
+    // compile group: 'org.jdom', name: 'jdom', version: '1.1.3'
+    // compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
+    // compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    // compile group: 'org.springframework', name: 'spring-context-support'
+    // compile group: 'org.springframework', name: 'spring-jms'
+    // compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.1', { exclude group: 'c3p0', module: 'c3p0' }
+    // compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
+    // compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.4.0'
+    // compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    // compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
+
+    compile fileTree(include: ['*.jar'], dir: '/opt/opencue/libs_jar')
 
     protobuf fileTree("../proto/")
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
-    testCompile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.13.3'
-    testCompile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.0'
+    testCompile fileTree(include: ['*.jar'], dir: '/opt/opencue/libs_test_jar')
+
+    // testCompile group: 'junit', name: 'junit', version: '4.12'
+    // testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    // testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
+    // testCompile group: 'com.opentable.components', name: 'otj-pg-embedded', version: '0.13.3'
+    // testCompile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.0'
 }
 
 protobuf {
@@ -87,63 +111,63 @@ protobuf {
     generatedFilesBaseDir = "${projectDir}/src/compiled_protobuf"
 }
 
-// Help IDEs recognize the generated code.
-sourceSets {
-    main {
-        java {
-            srcDirs += 'src/compiled_protobuf/main/java'
-            srcDirs += 'src/compiled_protobuf/main/grpc'
-        }
-    }
-    test {
-        resources.srcDirs = ["src/test/resources"]
-    }
-}
+// // Help IDEs recognize the generated code.
+// sourceSets {
+//     main {
+//         java {
+//             srcDirs += 'src/compiled_protobuf/main/java'
+//             srcDirs += 'src/compiled_protobuf/main/grpc'
+//         }
+//     }
+//     test {
+//         resources.srcDirs = ["src/test/resources"]
+//     }
+// }
 
 bootJar {
     baseName = 'cuebot'
 }
 
-jacoco {
-    toolVersion = "0.8.5"
-}
+// jacoco {
+//     toolVersion = "0.8.5"
+// }
 
-jacocoTestReport {
-    reports {
-        // XML is used by SonarCloud. HTML is generated if you want to generate a human-readable
-        // report locally. Reports are placed in build/reports/jacoco/.
-        xml.enabled true
-        html.enabled true
-    }
+// jacocoTestReport {
+//     reports {
+//         // XML is used by SonarCloud. HTML is generated if you want to generate a human-readable
+//         // report locally. Reports are placed in build/reports/jacoco/.
+//         xml.enabled true
+//         html.enabled true
+//     }
 
-    // Exclude files from test coverage.
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it,
-                    exclude: [
-                            // Exclude proto files' generated Java code.
-                            'com/imageworks/spcue/grpc/**',
-                            // Exclude Oracle classes; our standard test environment isn't currently
-                            // able to run Oracle unit tests, so coverage of those files will always
-                            // read as 0% even though tests do exist.
-                            'com/imageworks/spcue/dao/oracle/**',
-                            'com/imageworks/spcue/dao/criteria/oracle/**',])
-        }))
-    }
-}
+//     // Exclude files from test coverage.
+//     afterEvaluate {
+//         classDirectories.setFrom(files(classDirectories.files.collect {
+//             fileTree(dir: it,
+//                     exclude: [
+//                             // Exclude proto files' generated Java code.
+//                             'com/imageworks/spcue/grpc/**',
+//                             // Exclude Oracle classes; our standard test environment isn't currently
+//                             // able to run Oracle unit tests, so coverage of those files will always
+//                             // read as 0% even though tests do exist.
+//                             'com/imageworks/spcue/dao/oracle/**',
+//                             'com/imageworks/spcue/dao/criteria/oracle/**',])
+//         }))
+//     }
+// }
 
-sonarqube {
-    properties {
-        property "sonar.host.url", "https://sonarcloud.io"
-        property "sonar.organization", "academysoftwarefoundation"
-        property "sonar.projectKey", "AcademySoftwareFoundation_OpenCue_Cuebot"
-        property "sonar.projectName", "OpenCue Cuebot"
-        // SonarCloud will pick up the JaCoCo report automatically, but has its own options
-        // for excluding files. We don't need to exclude generated code here as it isn't
-        // checked into the repository, so SonarCloud doesn't even know it exists.
-        property "sonar.coverage.exclusions", "src/main/java/com/imageworks/spcue/dao/oracle/**," +
-                                              "src/main/java/com/imageworks/spcue/dao/criteria/oracle/**"
-        // NOTE: sonar.login must be provided manually, like:
-        //   ./gradlew sonarqube -Dsonar.login=<login key>
-    }
-}
+// sonarqube {
+//     properties {
+//         property "sonar.host.url", "https://sonarcloud.io"
+//         property "sonar.organization", "academysoftwarefoundation"
+//         property "sonar.projectKey", "AcademySoftwareFoundation_OpenCue_Cuebot"
+//         property "sonar.projectName", "OpenCue Cuebot"
+//         // SonarCloud will pick up the JaCoCo report automatically, but has its own options
+//         // for excluding files. We don't need to exclude generated code here as it isn't
+//         // checked into the repository, so SonarCloud doesn't even know it exists.
+//         property "sonar.coverage.exclusions", "src/main/java/com/imageworks/spcue/dao/oracle/**," +
+//                                               "src/main/java/com/imageworks/spcue/dao/criteria/oracle/**"
+//         // NOTE: sonar.login must be provided manually, like:
+//         //   ./gradlew sonarqube -Dsonar.login=<login key>
+//     }
+// }
