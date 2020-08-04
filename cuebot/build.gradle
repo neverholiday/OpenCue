@@ -12,31 +12,47 @@
 
 //     repositories {
 //         flatDir {
-//             dirs '/opt/opencue/libs_jar'
+//             dirs '/tmp/opencue/libs_jar'
 //         }
 //     }
 
 // }
 
-// apply plugin: 'java'
-// apply plugin: 'eclipse'
-// apply plugin: 'idea'
+buildscript {
+    repositories {
+        flatDir {
+            dirs '/tmp/opencue/libs_jar'
+        }
+    }
 
-plugins {
-    
-    id 'java'
-    id 'eclipse'
-    id 'idea'
-    id 'jacoco'
-    id 'org.springframework.boot' version '2.2.1.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'com.google.protobuf' version '0.8.8'
+    dependencies {
+        classpath fileTree(include: ['*.jar'], dir: '/tmp/opencue/libs_jar')
+        // classpath files( '/tmp/opencue/libs_jar/spring-boot-gradle-plugin-2.2.1.RELEASE.jar' )
+        // classpath files( '/tmp/opencue/libs_jar/dependency-management-plugin-1.0.8.RELEASE.jar' )
+        // classpath files( '/tmp/opencue/libs_jar/sonarqube-gradle-plugin-2.7.1.jar' )
+    }
 }
-// apply plugin: 'org.springframework.boot'
-// apply plugin: 'io.spring.dependency-management'
-// apply plugin: 'com.google.protobuf'
-// apply plugin: 'jacoco'
-// apply plugin: 'org.sonarqube'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.google.protobuf'
+apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
+
+
+// plugins {
+    
+//     id 'java'
+//     id 'eclipse'
+//     id 'idea'
+//     id 'jacoco'
+//     id 'org.springframework.boot' version '2.2.1.RELEASE'
+//     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+//     id 'com.google.protobuf' version '0.8.8'
+// }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -51,8 +67,7 @@ configurations {
 
 repositories {
         flatDir {
-            dirs '/opt/opencue/libs_jar'
-            dirs '/opt/opencue/libs_test_jar'
+            dirs '/tmp/opencue/libs_jar'
         }
 }
 
@@ -78,11 +93,11 @@ dependencies {
     // compile group: 'log4j', name: 'log4j', version: '1.2.17'
     // compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
 
-    compile fileTree(include: ['*.jar'], dir: '/opt/opencue/libs_jar')
+    compile fileTree(include: ['*.jar'], dir: '/tmp/opencue/libs_jar')
 
     protobuf fileTree("../proto/")
 
-    testCompile fileTree(include: ['*.jar'], dir: '/opt/opencue/libs_test_jar')
+    testCompile fileTree(include: ['*.jar'], dir: '/tmp/opencue/libs_jar')
 
     // testCompile group: 'junit', name: 'junit', version: '4.12'
     // testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
