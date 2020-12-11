@@ -149,10 +149,10 @@ class Cuebot(object):
         else:
             facility_default = config.get("cuebot.facility_default")
             Cuebot.setFacility(facility_default)
-        if Cuebot.Hosts is None:
-            raise CueException('Cuebot host not set. Please ensure CUEBOT_HOSTS is set ' +
-                               'or a facility_default host is set in the yaml pycue config.')
-        Cuebot.setChannel()
+        # if Cuebot.Hosts is None:
+        #     raise CueException('Cuebot host not set. Please ensure CUEBOT_HOSTS is set ' +
+        #                        'or a facility_default host is set in the yaml pycue config.')
+        # Cuebot.setChannel()
 
     @staticmethod
     def setChannel():
@@ -223,7 +223,7 @@ class Cuebot(object):
             hosts = [hosts]
         logger.debug("setting new server hosts to: %s" % hosts)
         Cuebot.Hosts = hosts
-        Cuebot.resetChannel()
+        # Cuebot.resetChannel()
 
     @staticmethod
     def setTimeout(timeout):
