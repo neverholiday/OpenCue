@@ -74,7 +74,7 @@ class CueSubmitNukeApp(QtWidgets.QApplication):
 
     def startup(self):
         self.setApplicationName(Constants.SUBMIT_APP_WINDOW_TITLE)
-        Style.init()
+        # Style.init()
         self.mainWindow.show()
         self.mainWindow.submitWidget.jobTreeWidget.table.setFocus()
 
